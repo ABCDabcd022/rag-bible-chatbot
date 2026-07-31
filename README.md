@@ -24,59 +24,20 @@
 
 ## 🐳 Запуск с Docker (рекомендуемый способ)
 
-### 1. Скачай готовый образ с Docker Hub
-
-```bash
-docker pull actualcondor/rag-bible-chatbot:latest
-```
-
-### 2. Скачай модели через Ollama
-
-```bash
-docker run -it --rm actualcondor/rag-bible-chatbot:latest ollama pull gemma3:4b
-docker run -it --rm actualcondor/rag-bible-chatbot:latest ollama pull nomic-embed-text
-```
-
-### 3. Запусти контейнер с приложением
-
-```bash
-docker run -it --rm \
-  -v $(pwd)/data:/app/data \
-  -v $(pwd)/chroma_db:/app/chroma_db \
-  actualcondor/rag-bible-chatbot:latest \
-  /bin/bash
-```
-
-### 4. Внутри контейнера проиндексируй книгу
-
-```bash
-python src/ingest.py
-```
-
-### 5. Запусти чат
-
-```bash
-python src/main.py
-```
-
----
-
-### 🚀 Или используй docker-compose (проще)
-
-1. Клонируй репозиторий:
+### 1. Клонируй репозиторий
 
 ```bash
 git clone https://github.com/ABCDabcd022/rag-bible-chatbot.git
 cd rag-bible-chatbot
 ```
 
-2. Запусти все сервисы:
+### 2. Запусти оба контейнера (Ollama + приложение)
 
 ```bash
 docker-compose up -d
 ```
 
-3. Зайди в контейнер Ollama и скачай модели:
+### 3. Скачай модели внутри контейнера Ollama
 
 ```bash
 docker exec -it ollama bash
@@ -85,12 +46,30 @@ ollama pull nomic-embed-text
 exit
 ```
 
-4. Зайди в контейнер с приложением и запусти чат:
+### 4. Зайди в контейнер с приложением
 
 ```bash
 docker exec -it rag-app bash
+```
+
+### 5. Проиндексируй книгу
+
+```bash
 python src/ingest.py
+```
+
+### 6. Запусти чат
+
+```bash
 python src/main.py
+```
+
+### 7. Остановка системы
+
+Чтобы остановить контейнеры, выйди из чата (`exit` или `Ctrl+C`), затем выполни:
+
+```bash
+docker-compose down
 ```
 
 ---
@@ -103,14 +82,22 @@ python src/main.py
 curl -fsSL https://ollama.com/install.sh | sh
 ```
 
-### 2. Скачай модели
+### 2. Запусти сервер Ollama
+
+В отдельном терминале:
+
+```bash
+ollama serve
+```
+
+### 3. Скачай модели
 
 ```bash
 ollama pull gemma3:4b
 ollama pull nomic-embed-text
 ```
 
-### 3. Создай окружение и установи зависимости
+### 4. Создай окружение и установи зависимости
 
 ```bash
 conda create -n rag_env python=3.11 -y
@@ -118,7 +105,7 @@ conda activate rag_env
 pip install -r requirements.txt
 ```
 
-### 4. Индексация
+### 5. Индексация
 
 Положи свою книгу (`.txt`) в папку `data/`:
 
@@ -126,20 +113,24 @@ pip install -r requirements.txt
 python src/ingest.py
 ```
 
-### 5. Запуск чата
+### 6. Запуск чата
 
 ```bash
 python src/main.py
 ```
 
+### 7. Остановка сервера
+
+В терминале с `ollama serve` нажми `Ctrl+C`.
+
 ---
 
 ## 📚 Как заменить книгу
 
-### С Docker (docker-compose)
+### С Docker
 
 1. Положи новый файл `.txt` в папку `data/` на хосте
-2. Удали старую векторную базу (если нужно):
+2. Удали старую векторную базу:
    ```bash
    rm -rf chroma_db/
    ```
@@ -155,7 +146,7 @@ python src/main.py
 ### Без Docker
 
 1. Положи новый файл `.txt` в папку `data/`
-2. Удали старую базу (если нужно):
+2. Удали старую базу:
    ```bash
    rm -rf chroma_db/
    ```
