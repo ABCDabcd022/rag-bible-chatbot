@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Виртуальное окружение
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Conda
+.conda/
+*.conda
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Проектные файлы
+chroma_db/          # ← Векторная база (может быть большой)
+data/               # ← Исходные тексты (опционально)
+*.log
+*.db
+*.sqlite3
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
