@@ -31,13 +31,19 @@ git clone https://github.com/ABCDabcd022/rag-bible-chatbot.git
 cd rag-bible-chatbot
 ```
 
-### 2. Запусти оба контейнера (Ollama + приложение)
+### 2. Запусти контейнеры
 
 ```bash
 docker-compose up -d
 ```
 
-### 3. Скачай модели внутри контейнера Ollama
+### 3. Запусти сервер Ollama внутри контейнера
+
+```bash
+docker exec -d ollama ollama serve
+```
+
+### 4. Скачай модели
 
 ```bash
 docker exec -it ollama bash
@@ -46,27 +52,27 @@ ollama pull nomic-embed-text
 exit
 ```
 
-### 4. Зайди в контейнер с приложением
+### 5. Зайди в контейнер с приложением
 
 ```bash
 docker exec -it rag-app bash
 ```
 
-### 5. Проиндексируй книгу
+### 6. Проиндексируй книгу
 
 ```bash
 python src/ingest.py
 ```
 
-### 6. Запусти чат
+### 7. Запусти чат
 
 ```bash
 python src/main.py
 ```
 
-### 7. Остановка системы
+### 8. Остановка системы
 
-Чтобы остановить контейнеры, выйди из чата (`exit` или `Ctrl+C`), затем выполни:
+Выйди из чата (`exit` или `Ctrl+C`), затем выполни:
 
 ```bash
 docker-compose down
@@ -83,8 +89,6 @@ curl -fsSL https://ollama.com/install.sh | sh
 ```
 
 ### 2. Запусти сервер Ollama
-
-В отдельном терминале:
 
 ```bash
 ollama serve
@@ -182,3 +186,6 @@ rag-bible-chatbot/
 └── README.md
 ```
 
+## 📄 Лицензия
+
+MIT
